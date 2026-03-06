@@ -1,6 +1,5 @@
 package br.com.challenge.literalura.dto;
 
-import br.com.challenge.literalura.model.Autor;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

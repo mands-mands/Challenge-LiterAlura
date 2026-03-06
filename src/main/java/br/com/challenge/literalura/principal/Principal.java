@@ -1,8 +1,12 @@
 package br.com.challenge.literalura.principal;
 
+import br.com.challenge.literalura.dto.DadosAutor;
 import br.com.challenge.literalura.dto.DadosLivro;
 import br.com.challenge.literalura.dto.DadosResposta;
+import br.com.challenge.literalura.model.Autor;
 import br.com.challenge.literalura.model.Livro;
+import br.com.challenge.literalura.repository.AutorRepository;
+import br.com.challenge.literalura.repository.LivroRepository;
 import br.com.challenge.literalura.service.ConectaApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +18,13 @@ public class Principal {
 
     Scanner teclado = new Scanner(System.in);
     private String endereco = "https://gutendex.com/books/?search=";
+    private LivroRepository livroRepository;
+    private AutorRepository autorRepository;
+
+    public Principal(LivroRepository livroRepository, AutorRepository autorRepository) {
+        this.livroRepository = livroRepository;
+        this.autorRepository = autorRepository;
+    }
 
     boolean continuar = true;
 
@@ -59,11 +70,24 @@ public class Principal {
 
         if (!resposta.results().isEmpty()) {
 
-            DadosLivro livro = resposta.results().get(0);
+            DadosLivro dadosLivro = resposta.results().get(0);
+            DadosAutor dadosAutor = dadosLivro.autor().get(0);
 
-            System.out.println("Título: " + livro.titulo());
-            System.out.println("Autor: " + livro.autor().get(0).nome());
-            System.out.println("Idioma: " + livro.idioma().get(0));
+            Autor autor = new Autor();
+            autor.setNome(dadosAutor.nome());
+            autor.setNascimento(dadosAutor.nascimento());
+            autor.setFalecimento(dadosAutor.falecimento());
+            autorRepository.save(autor);
+
+            Livro livro = new Livro();
+            livro.setTitulo(dadosLivro.titulo());
+            livro.setIdioma(dadosLivro.idioma().get(0));
+            livro.setAutor(autor);
+            livroRepository.save(livro);
+
+            System.out.println("Título: " + dadosLivro.titulo());
+            System.out.println("Autor: " + dadosLivro.autor().get(0).nome());
+            System.out.println("Idioma: " + dadosLivro.idioma().get(0));
 
         } else {
             System.out.println("Livro não encontrado.");

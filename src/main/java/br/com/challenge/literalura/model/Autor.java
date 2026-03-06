@@ -24,6 +24,10 @@ public class Autor {
         this.listaLivros = listaLivros;
     }
 
+    public Autor() {
+
+    }
+
     public Long getId() {
         return id;
     }

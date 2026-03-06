@@ -13,10 +13,10 @@ public class Livro {
     private String titulo;
     @ManyToOne
     private Autor autor;
-    private List<String> idioma;
+    private String idioma;
 
 
-    public Livro(String titulo, Autor autor, List<String> idioma) {
+    public Livro(String titulo, Autor autor, String idioma) {
         this.titulo = titulo;
         this.autor = autor;
         this.idioma = idioma;
@@ -48,11 +48,11 @@ public class Livro {
         this.autor = autor;
     }
 
-    public List<String> getIdioma() {
+    public String getIdioma() {
         return idioma;
     }
 
-    public void setIdioma(List<String> idioma) {
+    public void setIdioma(String idioma) {
         this.idioma = idioma;
     }
 
