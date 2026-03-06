@@ -10,16 +10,19 @@ public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String titulo;
     @ManyToOne
     private Autor autor;
     private String idioma;
+    private int downloads;
 
 
-    public Livro(String titulo, Autor autor, String idioma) {
+    public Livro(String titulo, Autor autor, String idioma, int downloads) {
         this.titulo = titulo;
         this.autor = autor;
         this.idioma = idioma;
+        this.downloads = downloads;
     }
 
     public Livro(){}
@@ -56,11 +59,20 @@ public class Livro {
         this.idioma = idioma;
     }
 
+    public int getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(int downloads) {
+        this.downloads = downloads;
+    }
+
     @Override
     public String toString() {
-        return " Titulo='" + titulo + '\'' +
-                ", Autor=" + autor.getNome() +
-                ", Idioma='" + idioma + '\'' +
-                '}';
+        return "\n------------- LIVRO -------------" +
+                " \nTitulo = " + titulo +
+                " \nAutor = " + autor.getNome() +
+                " \nIdioma = " + idioma +
+                " \nNúmero de downloads = " + downloads;
     }
 }
